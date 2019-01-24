@@ -31,7 +31,7 @@ exports.readAll = (callback) => {
       let obj = {};
       obj.id = item.slice(0, 5);
       exports.readOne(obj.id, (err, data) => {
-        if(err){
+        if (err) {
           callback(new Error(`No item with id: ${id} found.`));
         } else {
           obj.text = data.text;
