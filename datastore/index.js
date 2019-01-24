@@ -30,13 +30,19 @@ exports.readAll = (callback) => {
     items = _.map(items, (item) => {
       let obj = {};
       obj.id = item.slice(0, 5);
-      obj.text = item.slice(0, 5);
+      exports.readOne(obj.id, (err, data) => {
+        if(err){
+          callback(new Error(`No item with id: ${id} found.`));
+        } else {
+          obj.text = data.text;
+        }
+      });
       return obj;
     });
     callback(null, items);
   });
 };
-//TODO:   callback(new Error(`No item with id: ${id}`));
+
 exports.readOne = (id, callback) => {
   let target = exports.dataDir + '/' + id + '.txt';
   fs.readFile(target, (err, fileData) => {
