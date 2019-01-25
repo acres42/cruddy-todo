@@ -1,4 +1,6 @@
 const fs = require('fs');
+var Promise = require('bluebird');
+Promise.promisifyAll(fs);
 const path = require('path');
 const sprintf = require('sprintf-js').sprintf;
 
@@ -24,6 +26,8 @@ const readCounter = (callback) => {
     }
   });
 };
+// var getGitHubProfileAsync = Promise.promisify(getGitHubProfile);
+var readCounterAsync = Promise.promisify(readCounter);
 
 const writeCounter = (count, callback) => {
   var counterString = zeroPaddedNumber(count);
@@ -36,6 +40,7 @@ const writeCounter = (count, callback) => {
   });
 };
 
+var writeCounterAsync = Promise.promisify(writeCounter);
 // Public API - Fix this function //////////////////////////////////////////////
 
 exports.getNextUniqueId = (callback) => {
@@ -52,11 +57,18 @@ exports.getNextUniqueId = (callback) => {
       });
     }
   });
-  // counter = counter + 1;
-  // return zeroPaddedNumber(counter);
 };
 
+var getNextUniqueIdAsync = Promise.promisify(exports.getNextUniqueId);
+// exports.getNextUniqueIdPromise = () => {
+//   return new Promise((resolve, reject)=>{
+//     readCounter((err, count) => if (err) reject(error))
+//     .then((count) =>{
+//       writeCounter(count+1, )
+//     }
 
+//   });
+// };
 
 // Configuration -- DO NOT MODIFY //////////////////////////////////////////////
 
